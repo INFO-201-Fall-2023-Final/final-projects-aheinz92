@@ -1,10 +1,11 @@
 library(dplyr)
 library(stringr)
 
-# Trimming a 26 million row data set down to 455 thousand rows for just the US region's listening charts
-spotify_df <- read.csv("spotify_charts.csv")
-spotify_us_df <- filter(spotify_df, region == "United States")
-write.csv(spotify_us_df, "spotify_us_charts.csv", row.names = FALSE)  # Saved to a CSV to use, since this process was very slow to repeat
+# Trimming a 26 million row data set down to 455 thousand rows for just the US region's listening charts.
+# Don't run this part again, 3.5 GB file is too big to put on GitHub so it can't be submitted with loading this csv.
+#spotify_df <- read.csv("spotify_charts.csv")
+#spotify_us_df <- filter(spotify_df, region == "United States")
+#write.csv(spotify_us_df, "spotify_us_charts.csv", row.names = FALSE)  # Saved to a CSV to use, since this process was very slow to repeat
 
 # Adding a monthly date field to the Spotify data
 spotify_df <- read.csv("spotify_us_charts.csv")
