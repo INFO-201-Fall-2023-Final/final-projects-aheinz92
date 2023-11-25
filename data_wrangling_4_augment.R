@@ -29,7 +29,10 @@ joined_df$rolling_avg_6_month <- sapply(1:nrow(joined_df), function(i) {
 joined_df$date_month <- as.Date(paste0(joined_df$date_month, "-01"), format = "%Y-%m-%d")
 
 # Reshape the data frame to long format for ggplot2
-long_data <- gather(joined_df, key = "average_type", value = "average_value", total_spotify_and_netflix, rolling_avg_3_month, rolling_avg_6_month)
+long_data <- pivot_longer(joined_df, 
+                          cols = c("total_spotify_and_netflix", "rolling_avg_3_month", "rolling_avg_6_month"), 
+                          names_to = "average_type", 
+                          values_to = "average_value")
 
 # Create a line chart using the reshaped data
 joined_plot <- ggplot(long_data, aes(x = date_month, y = average_value, color = average_type, group = average_type)) +
@@ -70,3 +73,6 @@ for (i in 1:nrow(joined_df)) {
     joined_df$trend_6_month[i] <- "Sharp Decline"
   }
 }
+
+# Save a final CSV as a backup
+write.csv(joined_df, "final_korean_media_data.csv")  # Backing up inner join to a CSV
