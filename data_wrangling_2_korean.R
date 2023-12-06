@@ -77,11 +77,12 @@ write.csv(artists_unique_df, "spotify_artists_is_korean.csv", row.names = FALSE)
 
 
 # ----- Here spotify_artists_is_korean.csv was edited into CSV with a ----- 
-# ----- single unique list of names of the Korean artists -----
+# ----- single unique list of names of the Korean artists, -----
+# ----- named spotify_list_of_korean_artists_in_dataset.csv -----
 
 
 
-# ----- Finally applying this is_korean field to the original Spotify data -----
+# ----- Finally, adding the is_korean field to the original Spotify data -----
 
 # Load in a CSV that was reformatted a bit from the one we just created, to simply include a list 
 # of artist names from the Spotify data set that are confirmed to be Korean
