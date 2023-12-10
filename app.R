@@ -106,7 +106,7 @@ ui <- dashboardPage(
               ),
               tags$div(
                 style = "max-width: 800px; margin: 0 auto;",
-                plotOutput("stackedLineChart") # Stacked line chart output
+                plotOutput("stackedLineChart")
               )
       ),
       
@@ -194,7 +194,7 @@ ui <- dashboardPage(
                        wellPanel(
                          style = "padding:15px; border-radius:10px; text-align: justify",
                          
-                         sliderInput("barSlider", # Slider to select a range
+                         sliderInput("barSlider",
                                      "Range of Artist Popularity:", 
                                      min = 0, 
                                      max = 100,
@@ -234,7 +234,7 @@ ui <- dashboardPage(
               
               tags$div(
                 style = "max-width: 800px; margin: 0 auto;",
-                plotlyOutput("stackedBarChart") # Stacked bar chart output as plotly
+                plotlyOutput("stackedBarChart")
               )
       ),
       
@@ -287,47 +287,6 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   
-  # For some of these placeholder values we have used car parts/themes as an example, so you SHOULD just be able to replace those and have it work
-  # but if that doesn't work for any reason feel free to troubleshoot with me if you want, it was a bit hard to do this part without our datasets
-  
-  # I can also do better themeing when you are done if you want me to do that!
-  
-  # Rendering text:
-  output$lineChartText <- renderText({
-    # Can update this to be another static piece of text or change from user input... whatever
-    "1. raw data peaks a lot from things like specific songs hitting, so we explore rolling avgs to see the trend more interpretably. 
-     2. gradual build despite peaks and valleys"
-  })
-  
-  output$barChartText1 <- renderText({
-    # Info about the bar chart
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-  })
-  
-  output$barChartText2 <- renderText({
-    # Info about the bar chart
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-  })
-  
-  output$finalTakeaways <- renderText({
-    # Can summarize the final takeaways here
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-  })
-  
-  output$finalTakeaways2 <- renderText({
-    # Can summarize the final takeaways here
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-  })
-  
-  output$songImpactText <- renderText({
-    "note that JENNIE and LISA are members of BLACKPINK, and V is a member of
-    BTS, so technically every song is BTS or BLACKPINK that meets this criteria
-    except for V and ZICO's single hits"
-  })
-  
-
-  
-  
   
   output$stackedLineChart <- renderPlot({
     summary_df$date_month <- as.Date(summary_df$date_month)
@@ -365,7 +324,6 @@ server <- function(input, output) {
                            aes(x = date_month, y = total_spotify_and_netflix, color = "Linear Trend",), method = "lm", se = FALSE)
     }
     
-    # Additional plot formatting
     p <- p + 
       scale_color_manual(values = c("Raw Total" = "#b0c7f5", "3-Month Avg" = "#7debbb", "6-Month Avg" = "#e4eb7d", "Linear Trend" = "grey")) +
       scale_x_date(date_breaks = "6 months", date_labels = "%Y-%m")
@@ -392,7 +350,7 @@ server <- function(input, output) {
   # Declaring song_points outside of lineGraph so we can use it in other things
   song_points <- reactive({
     req(input$songRange)  
-    # Your filtering code here
+    
     songs_and_months_df[songs_and_months_df$count >= input$songRange,]
   })
   
@@ -425,7 +383,6 @@ server <- function(input, output) {
     # Interpolate the y values for data
     data$new_count_spotify_korean <- approx(summary_df$date_month, summary_df$new_count_spotify_korean, xout = data$date_month)$y
     
-    # Start with an empty plotly chart, add the line for summary_df
     p <- plot_ly() %>%
       add_trace(data = summary_df, 
                 x = ~date_month, 
@@ -434,7 +391,7 @@ server <- function(input, output) {
                 mode = "lines", 
                 hoverinfo = "none",
                 showlegend = FALSE)
-    # Then add data using new_count_spotify_korean values
+
     p <- p %>%
       add_trace(data = data, 
                 x = ~date_month, 
@@ -446,20 +403,12 @@ server <- function(input, output) {
                 text = ~paste(title, "by", artist, "<br>Charted", count, "times in", format(date_month, "%B %Y")), 
                 marker = list(size = ~count/2, color = ~chart_color, line = list(width = 0))) %>%
       layout(xaxis = list(title = "Month"), 
-             yaxis = list(title = "No. of times on Spotify charts"))
+             yaxis = list(title = "No. of times on Spotify charts")) %>%
+      config(displayModeBar = FALSE)
     
     p
   })
   
-  
-  
-  
-  # Song Info
-  output$songInfo <- renderText({
-    # Update this with logic to display song information based on selected song 
-    # once we have list finalized, and if we wont more info at all (don't need)
-    paste("Information for the song:", input$songSelector)
-  })
   
   output$stackedBarChart <- renderPlotly({
     # Get the values from the range slider
@@ -497,16 +446,6 @@ server <- function(input, output) {
     ggplotly(p, tooltip = "text") %>%
       config(displayModeBar = FALSE)
   })
-  
-  
-  
-  # Example: Multi-Line Chart
-  output$multiLineChart <- renderPlot({
-    # Replace with the data/chart code
-    # Use input$lineSelector to filter or modify the lines based on checkbox input.
-    ggplot(data = mpg, aes(x = displ, y = hwy, color = class)) + geom_line()
-  })
-  
 }
 
 shinyApp(ui = ui, server = server)
