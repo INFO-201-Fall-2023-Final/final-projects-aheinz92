@@ -1,0 +1,16 @@
+.main-header .logo {
+  font-family: "Georgia", Times, "Times New Roman", serif;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+/* Reduce the top margin on the main page area */
+.tab-content > .tab-pane > h2 {
+  margin-top: -5px;
+}
+
+body .input-tips {
+  font-style: italic !important;
+  color: teal !important;
+  font-size: 12pt !important;
+}

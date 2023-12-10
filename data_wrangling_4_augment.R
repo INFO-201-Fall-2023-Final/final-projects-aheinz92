@@ -1,13 +1,17 @@
 library(dplyr)
 library(stringr)
 library(ggplot2)
+library(tidyr)
 
 # ----- Creating new columns for a total sum and two different rolling averages -----
 
 joined_df <- read.csv("spotify_and_netflix_korean_monthly.csv")
 
 # Create a new column for the sum of Netflix plus Spotify monthly presence
-joined_df$total_spotify_and_netflix <- joined_df$count_spotify_korean + joined_df$count_netflix_korean
+# IMPORTANT: Netflix added shows were a much lower count, usually, than Spotify song chartings.
+# Therefore, it was decided to weight Netflix shows higher. This is very arbitary, and could be
+# most usefully weighted anywhere from 2 to 10 times. We settled on 5 times.
+joined_df$total_spotify_and_netflix <- joined_df$count_spotify_korean + (joined_df$count_netflix_korean * 5)
 
 # Create a new column for a 3-month rolling average
 joined_df$rolling_avg_3_month <- sapply(1:nrow(joined_df), function(i) {

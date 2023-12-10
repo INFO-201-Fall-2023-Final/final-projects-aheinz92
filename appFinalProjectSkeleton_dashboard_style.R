@@ -5,6 +5,7 @@ library(plotly)
 library(shinyWidgets)
 library(shinythemes)
 library(scales)
+library(shinydashboard)
 
 # Load data
 songs_df <- read.csv("spotify_korean_song_totals.csv")
