@@ -204,7 +204,7 @@ ui <- dashboardPage(
                          
                          tags$p("Use the slider to pick a range of popularity for the visible artists on the 
                            bar chart. For example, choosing 30 to 100 will display bars for all artists 
-                           who between 30 and 100 (inclusive) appearances on the US Spotify charts over 
+                           who had between 30 and 100 (inclusive) appearances on the US Spotify charts over 
                            the entire data set.", style = "font-size: 12px"),
                          
                          tags$div(style = "text-align: center; font-size: 20px; line-height: 20px; font-weight: bold;",
@@ -244,7 +244,7 @@ ui <- dashboardPage(
       
       
       tabItem(tabName = "conclusions",
-              h2("Introduction: Deep Dive on a Major Cultural Influence"),
+              h2("Conclusion: Trends and Impacts Through Data"),
               
               br(),
               
